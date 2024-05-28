@@ -1,6 +1,5 @@
 # IPL-2008-2016-Analytics
-Data of 2008 to 2016 
-Sure, here's the schema with a more presentable formatting for seniors:
+
 
 **1. Ball_by_Ball**
 
@@ -12,7 +11,7 @@ Sure, here's the schema with a more presentable formatting for seniors:
 | `innings_no`             | INTEGER   | Innings number in match          |
 | `team_batting`           | INTEGER   | Batting team identifier          |
 | `team_bowling`           | INTEGER   | Bowling team identifier          |
-| `striker_batting_position` | INTEGER   | Striker's batting position       |
+| `striker_batting_position` | INTEGER   | Striker's batting position     |
 | `striker`                | INTEGER   | Striker's player identifier      |
 | `non_striker`            | INTEGER   | Non-striker's player identifier  |
 | `bowler`                 | INTEGER   | Bowler's player identifier       |
@@ -177,5 +176,17 @@ Sure, here's the schema with a more presentable formatting for seniors:
 
 | Column Name  | Data Type | Description                         |
 |--------------|-----------|-------------------------------------|
-| `match_id`   | INTEGER   | Unique match identifier              |
-| `over_i
+| `match_id`   | INTEGER   | Unique match identifier             |
+| `over_id`    | INTEGER   | Unique over identifier              |
+| `ball_id`    | INTEGER   | Unique ball identifier              |
+| `player_out` | INTEGER   | Player who got out                  |
+| `kind_out`   | INTEGER   | Out type identifier                 |
+| `fielders`   | INTEGER   | Fielder(s) involved in dismissal    |
+| `innings_no` | INTEGER   | Innings number in match             |
+
+**21. Win_By**
+
+| Column Name | Data Type | Description                |
+|-------------|-----------|----------------------------|
+| `win_id`    | INTEGER   | Unique win type identifier |
+| `win_type`  | STRING    | Description of win type    |
