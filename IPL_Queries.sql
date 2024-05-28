@@ -1,4 +1,4 @@
-# /* Identify the venues from the first season,the number of matches played there and the total number of sixes hit at each venue. */
+/* Identify the venues from the first season,the number of matches played there and the total number of sixes hit at each venue. */
 
 Select v.venue_name ,
 COUNT(DISTINCT m.match_id) as Match_Played,
