@@ -117,6 +117,20 @@ SELECT od.bowler AS player_id,
 HAVING SUM(CASE WHEN tr.total_runs_scored = 0 THEN 1 ELSE 0 END) > 0; -- At least one over with zero runs
 
 
+-- Write SQL Query to rank the batsmen that participated in IPL 2016 tournament based on their Runs Above Average.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
