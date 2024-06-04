@@ -119,7 +119,69 @@ HAVING SUM(CASE WHEN tr.total_runs_scored = 0 THEN 1 ELSE 0 END) > 0; -- At leas
 
 -- Write SQL Query to rank the batsmen that participated in IPL 2016 tournament based on their Runs Above Average.
 
+WITH BatsmanStats AS (
+SELECT
+b.striker AS player_id,
+p.player_name,
+SUM(r.runs_scored) AS total_runs,
+COUNT(r.ball_id) AS total_balls_faced,
+SUM(CASE WHEN wt.player_out IS NOT NULL THEN 1 ELSE 0 END) AS total_outs
+FROM
+ball_by_ball b
+LEFT JOIN
 
+batsman_scored r ON b.match_id = r.match_id AND b.innings_no = r.innings_no AND b.over_id =
+r.over_id AND b.ball_id = r.ball_id
+LEFT JOIN
+wicket_taken wt ON b.match_id = wt.match_id AND b.innings_no = wt.innings_no AND b.over_id =
+wt.over_id AND b.ball_id = wt.ball_id
+JOIN
+player p ON b.striker = p.player_id
+GROUP BY
+b.striker, p.player_name
+),
+OverallStats AS (
+SELECT
+AVG(total_runs / total_balls_faced) AS average_batting_strike_rate,
+AVG(total_outs / total_balls_faced) AS average_out_rate
+FROM
+BatsmanStats
+),
+TotalStats AS (
+SELECT
+SUM(total_runs) AS total_runs,
+SUM(total_balls_faced) AS total_balls_faced
+FROM
+BatsmanStats
+)
+SELECT
+DISTINCT
+
+bs.player_id,
+bs.player_name,
+(bs.total_runs - os.average_batting_strike_rate * bs.total_balls_faced) +
+(total_average * bs.total_balls_faced * (os.average_out_rate - bs.total_outs / bs.total_balls_faced)) AS
+RAA,
+DENSE_RANK() OVER (ORDER BY ((bs.total_runs - os.average_batting_strike_rate *
+bs.total_balls_faced) +
+(total_average * bs.total_balls_faced * (os.average_out_rate - bs.total_outs / bs.total_balls_faced)))
+DESC) AS PLAYER_RANK
+FROM
+BatsmanStats bs
+CROSS JOIN
+OverallStats os
+CROSS JOIN
+TotalStats ts
+CROSS JOIN
+(SELECT total_runs / total_balls_faced AS total_average FROM TotalStats) AS t
+JOIN
+ball_by_ball b ON bs.player_id = b.striker
+JOIN
+match m ON b.match_id = m.match_id
+WHERE
+m.season_id = 9
+ORDER BY
+RAA DESC;
 
 
 
